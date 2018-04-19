@@ -91,8 +91,10 @@ for a2=1:initdata.epoch(a1).gpsobs
         dw = OMEGAdote*(initdata.epoch(a1).gps(a2).CLC/299792458);%传播时间转过的角度
         cw = cos(dw);sw = sin(dw);
         anglepos=[cw sw 0;-sw cw 0;0 0 1]*[X;Y;Z];
-       % 计算高度角 thet 
-            D=[X;Y;Z]-x0;
+       % 计算高度角 thet
+       
+       %我的改变
+            D=anglepos-x0;
             E=S*D;
             theta=asin(E(3)/sqrt(E(1)^2+E(2)^2+E(3)^2));
     
