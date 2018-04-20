@@ -1,7 +1,7 @@
-function[basedata]=readbasefile
+function[basedata,basefilepath]=readbasefile
 % 读取基站的观测文件
-NAVfilepath = '.\cut20390.15o';
-fid      = fopen(NAVfilepath);
+basefilepath = '.\cut01680.14o';
+fid      = fopen(basefilepath);
 while ~feof(fid)   %feof若未结束返回0值
     line = fgetl(fid);
 %     if strfind(line,'APPROX POSITION XYZ')

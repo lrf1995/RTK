@@ -4,7 +4,7 @@ for  i=1:obsnum
     for  j=1:basenum
         if(movesat(i).prn==basesat(j).prn)
             satnum=satnum+1;
-            r=sqrt((movesat(satnum).xs-x0(1))^2+(movesat(satnum).ys-x0(2))^2+(movesat(satnum).zs-x0(3))^2);
+            r=sqrt((movesat(i).xs-x0(1))^2+(movesat(i).ys-x0(2))^2+(movesat(i).zs-x0(3))^2);
             singaldiff(satnum).Ix = (movesat(i).xs - x0(1))/r;
             singaldiff(satnum).Iy = (movesat(i).ys - x0(2))/r;
             singaldiff(satnum).Iz = (movesat(i).zs - x0(3))/r;

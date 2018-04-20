@@ -1,6 +1,13 @@
 function[N,d,Qxn,Qn]=DD(singaldiff,satnum,maxnum)
 dnum=0;
-lamda = 0.1903;
+ cs = 2.99792458e8;%π‚ÀŸ
+ L1f=1575.42e6;
+lamda = cs/L1f;       %≤®≥§¶À
+G = zeros(satnum-1,3) ;
+H1 = zeros(satnum-1,1) ;
+H2 = zeros(satnum-1,1) ;
+Q1 =zeros(satnum-1,satnum-1) ;
+Q2 =zeros(satnum-1,satnum-1) ;
 for id=1:(satnum-1)
     dnum=dnum+1;
     if(dnum==maxnum),dnum=dnum+1;end
@@ -26,7 +33,7 @@ Q=[Q1,G1;G1,Q2];
 C=inv(Q); 
 A=[G,G1;G,b];
 H=[H1;H2];
-X=(A'*C*A)\(A')*C*H;
+X=(A'*C*A)\A'*C*H;
   d = X(1:3);
   N = X(4:satnum-1+3);
   Qx = inv(A'*C*A);        

@@ -1,7 +1,7 @@
-function[obsdata]=readobsfile
+function[obsdata,movefilepath]=readobsfile
 % 读取观测文件（用户接收机）
-NAVfilepath = '.\cut00390.15o';
-fid      = fopen(NAVfilepath);
+movefilepath = '.\cut21680.14o';
+fid      = fopen(movefilepath);
 while ~feof(fid)   %feof若未结束返回0值
     line = fgetl(fid);
 %     if strfind(line,'APPROX POSITION XYZ')

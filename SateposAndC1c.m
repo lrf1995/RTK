@@ -60,10 +60,18 @@ for a2=1:initdata.epoch(a1).gpsobs
                 end
             end
        %  4.计算信号发射时刻的偏近角E
-           Eo=Mk+es*sin(Mk);
-           E1=Mk+es*sin(Eo);
-           E2=Mk+es*sin(E1);
-           Ek=Mk+es*sin(E2);
+%        
+%            Eo=Mk+es*sin(Mk);
+%            E1=Mk+es*sin(Eo);
+%            E2=Mk+es*sin(E1);
+%            Ek=Mk+es*sin(E2);
+            Ek = Mk;
+            while(1)
+            E0 = Ek;
+            Ek = Mk+es*sin(E0);
+            if(abs(Ek-E0)<1e-12),break;end
+            end
+
        %  5.计算信号发射时刻的真近点角vk
            cosvk=((cos(Ek)-es)/(1-es*cos(Ek)));
            sinvk=(sqrt(1-es^2))*sin(Ek)/(1-es*cos(Ek));
@@ -98,9 +106,11 @@ for a2=1:initdata.epoch(a1).gpsobs
             E=S*D;
             theta=asin(E(3)/sqrt(E(1)^2+E(2)^2+E(3)^2));
     
-           if theta>(pi/18)
+           if theta>(5*pi/180)
              satnum = satnum+1; 
-             lamda = 0.1903;       %波长λ
+             cs = 2.99792458e8;%光速
+             L1f=1575.42e6;
+             lamda = cs/L1f;       %波长λ
             % 计算即在概略点处据卫星的距离与基站与卫星距离差、Ru、卫星角度theta
              satdata(satnum).theta =theta;
              satdata(satnum).xs=X;        %根据用户接收机计算得到的卫星坐标(xus,yus,zus)

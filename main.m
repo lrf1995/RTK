@@ -1,5 +1,5 @@
-
-x0=[-2364337.4414;4870285.6211;-3360809.6724];
+format long;
+x0=[-2364337.3977;4870285.6075;-3360809.7103];
 % x1=[-2364335.4220;4870281.4604;-3360816.7056];
 x1 = x0;
 wrong=0;
@@ -8,7 +8,7 @@ correct=0;
 % [basedata]=readbasefile;                            %得到基站接收机星历文件base
 % [obsdata]=readobsfile;                        %得到用户接收机星历文件obs
 
-load('00394_19cut0cut2.mat');
+load('4_20cut0cut2.mat');
 
 a=6378137;
 f=1/298.257223563;
@@ -30,7 +30,7 @@ group=2880;
 for m=1:group
     [basesat,basenum]=SateposAndC1c(navdata,basedata,x0,S,m);
     [movesat,obsnum] =SateposAndC1c(navdata,obsdata,x0,S,m);
-      
+    
     [singaldiff,satnum,maxnum]=SD(basesat,basenum,movesat,obsnum,x0);
     [N,d,Qxn,Qn]=DD(singaldiff,satnum,maxnum);
     %%  模糊度固定
@@ -44,9 +44,9 @@ for m=1:group
     pos=x0+df;
     if(proba(m)==0)
         wrong=wrong+1;
-        x(m) = pos(1);
-        y(m) = pos(2);
-        z(m) = pos(3);
+        x(m) = x0(1);
+        y(m) = x0(2);
+        z(m) = x0(3);
     else
         correct=correct+1;
         P(correct)=Ps;
@@ -57,10 +57,10 @@ for m=1:group
         z(m) = pos(3);
     end
     %% 求取CEP
-    dx(m) = pos(1)-x1(1);
-    dy(m) = pos(2)-x1(2);
-    dz(m) = pos(3)-x1(3);
-%     Dx(correct)=df(1);
+    dx(m) = x(m)-x1(1);
+    dy(m) = y(m)-x1(2);
+    dz(m) = z(m)-x1(3);
+    %     Dx(correct)=df(1);
     env=S*[dx(m);dy(m);dz(m)];
     CEPL(m) = sqrt(env(1)^2+env(2)^2) ;
     CEPH(m) = env(3);
@@ -83,4 +83,13 @@ hold on;
 plot(dy,'.green')
 hold on;
 plot(dz,'.red')
+
+
+
+
+
+
+
+
+
 

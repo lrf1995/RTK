@@ -1,6 +1,6 @@
-function[navdata]=readnavfile
+function[navdata,navfilepath]=readnavfile
 % 读取导航[navdata]=readnavfile文件
-navfilepath = '.\cuta0390.15p';
+navfilepath = '.\cuta1680.14p';
 fid      = fopen(navfilepath);%打开导航文件‘1680.14p'
 gpsnav = 0; %导航文件中的卫星总个数
 navdata = NaN; %导航文件读取的数据为空
