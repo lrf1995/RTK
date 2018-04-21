@@ -1,7 +1,9 @@
 function[N,d,Qxn,Qn]=DD(singaldiff,satnum,maxnum)
+global  lamda;
+
 dnum=0;
- cs = 2.99792458e8;%光速
- L1f=1575.42e6;
+cs = 2.99792458e8;%光速
+L1f=1575.42e6;
 lamda = cs/L1f;       %波长λ
 G = zeros(satnum-1,3) ;
 H1 = zeros(satnum-1,1) ;

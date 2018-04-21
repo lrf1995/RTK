@@ -1,17 +1,19 @@
 format long;
+Global(1);   %全局变量判断导航系统GPS(1),BDS(2)
+
 x0=[-2364337.3977;4870285.6075;-3360809.7103];
-% x1=[-2364335.4220;4870281.4604;-3360816.7056];
+% x1=[-2364337.4414;4870285.6211;-3360809.6724];
 x1 = x0;
 wrong=0;
 correct=0;
 % [navdata]=readnavfile;                              %得到卫星的星历文件nav
-% [basedata]=readbasefile;                            %得到基站接收机星历文件base
-% [obsdata]=readobsfile;                        %得到用户接收机星历文件obs
+% [basedata,basefilepath]=readobsfile;                            %得到基站接收机星历文件base
+% [obsdata,movefilepath]=readobsfile;                        %得到用户接收机星历文件obs
+% load('4_20cut0cut2.mat');
+load('14p16804_21cut0cut2.mat')
 
-load('4_20cut0cut2.mat');
-
+global f
 a=6378137;
-f=1/298.257223563;
 e=sqrt(f*(2-f));
 lambda=atan2(x0(2),x0(1));
 phi=0;
@@ -84,6 +86,13 @@ plot(dy,'.green')
 hold on;
 plot(dz,'.red')
 
+figure (3)
+subplot 311     % 将画图区域分成3行1列，dx关于t的函数图像画在第三行第一列
+plot(dx,'.r');
+subplot 312     % 将画图区域分成3行1列，dy关于t的函数图像画在第三行第二列
+plot(dy,'.b');
+subplot  313    % 将画图区域分成3行1列，dz关于t的函数图像画在第三行第三列
+plot(dz,'.y');
 
 
 
