@@ -81,6 +81,7 @@ while ~feof(fid) %判断是否读到文件尾时
         navdata.system(flag).gps(bdsnav).prn = dataline(1); %读取卫星序号
         utctime = dataline(2:7); %读取公历时间
         gpst = cal2gps(utctime); %将公历GPS时间转换到GPS周和周内的秒
+        gpst(2)=gpst(2)-14; %北斗时
         navdata.system(flag).gps(bdsnav).utctime = utctime;
         navdata.system(flag).gps(bdsnav).gpst = gpst; %卫星发射信号时间转换的UTC时间 (发射时间)
         navdata.system(flag).gps(bdsnav).af0 = dataline(8); %偏差svClkBias=af0

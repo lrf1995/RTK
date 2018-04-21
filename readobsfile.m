@@ -1,6 +1,6 @@
 function[obsdata,movefilepath]=readobsfile
 % 读取观测文件（用户接收机）
-movefilepath = '.\cut01680.14o';
+movefilepath = '.\cut21680.14o';
 fid      = fopen(movefilepath);
 while ~feof(fid)   %feof若未结束返回0值
     line = fgetl(fid);
@@ -19,6 +19,9 @@ while ~feof(fid)
     dataline = sscanf(line(2:end),'%f');
     timeutc = dataline(1:6);
     gpst = cal2gps(timeutc);
+    obsdata.system(1).epoch(epochnum).gpst =gpst; % GPS用户接收机接收机信号接收时间tu
+    gpst(2)=gpst(2)-14;                               %北斗时
+    obsdata.system(2).epoch(epochnum).gpst =gpst; % BDS用户接收机接收机信号接收时间tu
     shu = dataline(8);%该时刻卫星数目
     gpsobs = 0; %观测文件中GPS每个历元中的卫星总个数
     bdsobs = 0; %观测文件中BDS每个历元中的卫星总个数
@@ -71,6 +74,7 @@ while ~feof(fid)
             flag = 2 ;
             bdsobs=bdsobs+1;
             obsdata.system(flag).epoch(epochnum).gps(bdsobs).timeutc=timeutc;
+            gpst(2)=gpst(2)-14; %北斗时
             obsdata.system(flag).epoch(epochnum).gps(bdsobs).gpst =gpst;                    % 用户接收机接收机信号接收时间tu
             obsdata.system(flag).epoch(epochnum).gps(bdsobs).prn = str2double(line(2:3));   % 用户接收的卫星prn号
             obsdata.system(flag).epoch(epochnum).gps(bdsobs).C1C = str2double(line(5:17));  % 用户接收的卫星伪距量C1L

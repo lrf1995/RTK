@@ -1,12 +1,12 @@
-format long;
-Global(1);   %全局变量判断导航系统GPS(1),BDS(2)
+format long
+Global(2);   %全局变量判断导航系统GPS(1),BDS(2)
 
 x0=[-2364337.3977;4870285.6075;-3360809.7103];
 % x1=[-2364337.4414;4870285.6211;-3360809.6724];
 x1 = x0;
 wrong=0;
 correct=0;
-% [navdata]=readnavfile;                              %得到卫星的星历文件nav
+% [navdata,navfilepath]=readnavfile;                              %得到卫星的星历文件nav
 % [basedata,basefilepath]=readobsfile;                            %得到基站接收机星历文件base
 % [obsdata,movefilepath]=readobsfile;                        %得到用户接收机星历文件obs
 % load('4_20cut0cut2.mat');
