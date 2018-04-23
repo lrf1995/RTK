@@ -12,8 +12,7 @@ correct=0;
 % load('4_20cut0cut2.mat');
 load('14p16804_21cut0cut2.mat')
 
-global f
-a=6378137;
+global f a
 e=sqrt(f*(2-f));
 lambda=atan2(x0(2),x0(1));
 phi=0;

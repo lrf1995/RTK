@@ -96,6 +96,7 @@ for a2=1:initdata.system(flag).epoch(a1).satnum
             X=pos(1);
             Y=pos(2);
             Z=pos(3);
+            
         end
     end
     
