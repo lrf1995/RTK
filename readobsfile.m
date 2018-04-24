@@ -1,6 +1,6 @@
 function[obsdata,movefilepath]=readobsfile
 % 读取观测文件（用户接收机）
-movefilepath = '.\cuta1680.16o';
+movefilepath = '.\cut00450.14o';
 fid      = fopen(movefilepath);
 while ~feof(fid)   %feof若未结束返回0值
     line = fgetl(fid);
