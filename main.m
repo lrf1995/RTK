@@ -34,6 +34,12 @@ for m=1:group
     
     [singaldiff,satnum,maxnum]=SD(basesat,basenum,movesat,obsnum,x0);
     [N,d,Qxn,Qn]=DD(singaldiff,satnum,maxnum);
+%     fprintf(' %d\n',m);
+%     fprintf(' %.18f\n',d(1));
+%     fprintf(' %.18f\n',d(2));
+%     fprintf(' %.18f\n',d(3));
+%     disp('\n')
+   
     %%  模糊度固定
     clear afixed sqnorm Ps Qzhat Z nfixed mu;
     [afixed,sqnorm,Ps,Qzhat,Z,nfixed,mu]= LAMBDA (N,Qn,6,'MU',1/3);
@@ -58,9 +64,9 @@ for m=1:group
         z(m) = pos(3);
     end
     %% 求取CEP
-    dx(m) = x(m)-x1(1);
-    dy(m) = y(m)-x1(2);
-    dz(m) = z(m)-x1(3);
+    dx(m) = x(m)-x0(1);
+    dy(m) = y(m)-x0(2);
+    dz(m) = z(m)-x0(3);
     %     Dx(correct)=df(1);
     env=S*[dx(m);dy(m);dz(m)];
     CEPL(m) = sqrt(env(1)^2+env(2)^2) ;

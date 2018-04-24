@@ -3,14 +3,16 @@ function[satdata,satnum]=SateposAndC1c(navdata,initdata,x0,S,m)
 global flag lamda u OMEGAdote cs ; %地球自转角速度
 a1=m;
 satnum=0;
-
+match = 0;%判断星历是否匹配
+gpsnav = length(navdata.system(flag).gps) ;%星历的个数
 for a2=1:initdata.system(flag).epoch(a1).satnum
     P = initdata.system(flag).epoch(a1).gps(a2).C1C;
     F = initdata.system(flag).epoch(a1).gps(a2).L1C;
     if (isnan(P)||isnan(F)||(F==0)||(P==0)),continue;end      %判断数据的伪距和载波是否有数 
-    for a3=1:length(navdata.system(flag).gps)
+    for a3=1:gpsnav
         %   计算规划时间tk
         if(initdata.system(flag).epoch(a1).gps(a2).prn==navdata.system(flag).gps(a3).prn)
+            
             tk = (initdata.system(flag).epoch(a1).gpst(1)-navdata.system(flag).gps(a3).gpst(1))*604800 + ...
                 initdata.system(flag).epoch(a1).gpst(2)-navdata.system(flag).gps(a3).toe - P/299792458;
             if (tk > 302400)
@@ -20,7 +22,15 @@ for a2=1:initdata.system(flag).epoch(a1).satnum
             end
             if (abs(tk)<7200),break;end
         end
+        
+        %% 无匹配导航文件
+         if(a3 == gpsnav),match = 1;end
     end
+     if(match==1)
+        match=0;
+        continue;
+    end
+
     num = navdata.system(flag).gps(a3).prn;
     toe=navdata.system(flag).gps(a3).toe;
     %         t=basedata.epoch(a1).gps(a2).gpst-basedata.epoch(a1).gps(a2).CLC/299792458;
