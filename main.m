@@ -1,16 +1,31 @@
 format long
+
+
+%% 进行初始化，选择数据，选择导航系统
+data = 3;    %选择数据
 Global(2);   %全局变量判断导航系统GPS(1),BDS(2)
 
-x0=[-2364337.3977;4870285.6075;-3360809.7103];
-% x1=[-2364337.4414;4870285.6211;-3360809.6724];
-x1 = x0;
-wrong=0;
-correct=0;
+
 % [navdata,navfilepath]=readnavfile;                              %得到卫星的星历文件nav
 % [basedata,basefilepath]=readobsfile;                            %得到基站接收机星历文件base
-% [obsdata,movefilepath]=readobsfile;                        %得到用户接收机星历文件obs
-% load('4_20cut0cut2.mat');
-load('14p16804_21cut0cut2.mat')
+% [obsdata,movefilepath]=readobsfile;                             %得到用户接收机星历文件obs
+
+
+switch (data)
+    case 1
+      x0=[-2364337.3977;4870285.6075;-3360809.7103];
+      x1 = x0;
+      load('14p16804_21cut0cut2.mat');
+    case 2
+      x0 = [-2364337.4414;4870285.6211;-3360809.6724];
+      x1 = x0;
+      load('16p16804_24cut0cut2.mat');
+    case 3
+      x0= [-2364335.4220;4870281.4604;-3360816.7056];
+      x1= [-2364337.4414;4870285.6211;-3360809.6724];
+      load('16p16804_24cutacut0.mat');
+      
+end     
 
 global f a
 e=sqrt(f*(2-f));
@@ -26,6 +41,8 @@ S=[-sin(lambda) cos(lambda) 0;...
     -sin(phi)*cos(lambda) -sin(phi)*sin(lambda) cos(phi);...
     cos(phi)*cos(lambda) cos(phi)*sin(lambda) sin(phi)];
 
+wrong=0;
+correct=0;
 h=waitbar(0,'请等待...');
 group=2880;
 for m=1:group
@@ -64,9 +81,9 @@ for m=1:group
         z(m) = pos(3);
     end
     %% 求取CEP
-    dx(m) = x(m)-x0(1);
-    dy(m) = y(m)-x0(2);
-    dz(m) = z(m)-x0(3);
+    dx(m) = x(m)-x1(1);
+    dy(m) = y(m)-x1(2);
+    dz(m) = z(m)-x1(3);
     %     Dx(correct)=df(1);
     env=S*[dx(m);dy(m);dz(m)];
     CEPL(m) = sqrt(env(1)^2+env(2)^2) ;
