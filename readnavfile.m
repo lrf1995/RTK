@@ -1,6 +1,6 @@
 function[navdata,navfilepath]=readnavfile
 % 读取导航[navdata]=readnavfile文件
-navfilepath = '.\cuta0450.14p';
+navfilepath = '.\cuta3240.16p';
 fid      = fopen(navfilepath);
 gpsnav = 0;    % GPS导航文件中的卫星总个数
 bdsnav = 0;   % BDS导航文件中的卫星总个数
@@ -8,7 +8,7 @@ navdata = NaN; %导航文件读取的数据为空
 % 跳过头文件
 while ~feof(fid)                             %feof若未结束返回0值
     line = fgetl(fid);
-    if strcmp(line(61:73),'END OF HEADER'),break;end %% 跳过文件头
+    if strfind(line,'END OF HEADER'),break;end %% 跳过文件头
 end
 % 逐行读取正文内容
 while ~feof(fid) %判断是否读到文件尾时
