@@ -1,6 +1,6 @@
 function[obsdata,movefilepath]=readobsfile
 % 读取观测文件（用户接收机）
-movefilepath = '.\cut00450.14o';
+movefilepath = '.\cuta1680.16o';
 fid      = fopen(movefilepath);
 while ~feof(fid)   %feof若未结束返回0值
     line = fgetl(fid);
@@ -34,51 +34,59 @@ while ~feof(fid)
         if linechang<193
             line(linechang+1:193)=0;
         end
-%%      判断不同卫星系统不同频率下是否存在相应的载波和伪距
-%         cada = line(1);
-%         C2I = str2double(line(5:17));
-%         L2I = str2double(line(21:34));
-%         C7I = str2double(line(54:66));
-%         L7I = str2double(line(69:82));
-%         C6I = str2double(line(102:114));
-%         L6I = str2double(line(117:130));
-%         if ((cada=='C')||(cada=='G'))
-%             if(isnan(C2I)||isnan(C7I)||isnan(C6I)||isnan(L2I)||isnan(L7I)||isnan(L6I))
-%                 continue;
-%             end
-%         end
+        %%      判断不同卫星系统不同频率下是否存在相应的载波和伪距
+% %         cada = line(1);
+% %         C1C = str2double(line(5:17));
+% %         L1C = str2double(line(21:34));
+% %         C2C = str2double(line(54:66));
+% %         L2C = str2double(line(69:82));
+% %         %         C3I = str2double(line(102:114));
+% %         %         L3I = str2double(line(117:130));
+% %         if ((cada=='C')||(cada=='G'))
+% %             if(isnan(C1C)||isnan(L1C)||isnan(C2C)||isnan(L2C))%||isnan(C3I)||isnan(L3I))
+% %                 continue;
+% %             end
+% %         end
         
-%% 读取观测数据
-
+        %% 读取观测数据       
         if line(1)=='G'
             flag = 1 ;
+            C1C = str2double(line(5:17));
+            L1C = str2double(line(21:34));
+            C2C = str2double(line(70:82));
+            L2C = str2double(line(85:98));
+            if(isnan(C1C)||isnan(L1C)||isnan(C2C)||isnan(L2C))%||isnan(C3I)||isnan(L3I))
+                continue;
+            end
             gpsobs=gpsobs+1;
             obsdata.system(flag).epoch(epochnum).gps(gpsobs).timeutc=timeutc;
             obsdata.system(flag).epoch(epochnum).gps(gpsobs).gpst =gpst;                    % 用户接收机接收机信号接收时间tu
             obsdata.system(flag).epoch(epochnum).gps(gpsobs).prn = str2double(line(2:3));   % 用户接收的卫星prn号
-            obsdata.system(flag).epoch(epochnum).gps(gpsobs).C1C = str2double(line(5:17));  % 用户接收的卫星伪距量C1L
-            obsdata.system(flag).epoch(epochnum).gps(gpsobs).L1C = str2double(line(20:33)); % 用户接受的卫星载波相位L1C
-            %obsdata.gps(obsnum).C2W = str2double(line(53:65));
-            %obsdata.gps(obsnum).L2W = str2double(line(68:81));
-            %obsdata.gps(obsnum).S2W = str2double(line(91:97));
-            %obsdata.gps(obsnum).C2X = str2double(line(101:113));
-            %obsdata.gps(obsnum).L2X = str2double(line(117:129));
-            %obsdata.gps(obsnum).S2X = str2double(line(139:145));
-            %obsdata.gps(obsnum).C5Q = str2double(line(149:161));
-            %obsdata.gps(obsnum).L5Q = str2double(line(165:177));
-            %obsdata.gps(obsnum).S5Q = str2double(line(187:193));
+            obsdata.system(flag).epoch(epochnum).gps(gpsobs).C1C = C1C;  % 用户接收的卫星伪距量C1L
+            obsdata.system(flag).epoch(epochnum).gps(gpsobs).L1C = L1C; % 用户接受的卫星载波相位L1C
+            obsdata.system(flag).epoch(epochnum).gps(gpsobs).C2C = C2C;  % 用户接收的卫星伪距量C2L
+            obsdata.system(flag).epoch(epochnum).gps(gpsobs).L2C = L2C; % 用户接受的卫星载波相位L2C
             
         elseif line(1)=='R'
             
         elseif line(1)=='C'
             flag = 2 ;
+            C1C = str2double(line(5:17));
+            L1C = str2double(line(21:34));
+            C2C = str2double(line(70:82));
+            L2C = str2double(line(85:98));
+             if(isnan(C1C)||isnan(L1C)||isnan(C2C)||isnan(L2C))%||isnan(C3I)||isnan(L3I))
+                continue;
+            end
             bdsobs=bdsobs+1;
             obsdata.system(flag).epoch(epochnum).gps(bdsobs).timeutc=timeutc;
             gpst(2)=gpst(2)-14; %北斗时
             obsdata.system(flag).epoch(epochnum).gps(bdsobs).gpst =gpst;                    % 用户接收机接收机信号接收时间tu
             obsdata.system(flag).epoch(epochnum).gps(bdsobs).prn = str2double(line(2:3));   % 用户接收的卫星prn号
-            obsdata.system(flag).epoch(epochnum).gps(bdsobs).C1C = str2double(line(5:17));  % 用户接收的卫星伪距量C1L
-            obsdata.system(flag).epoch(epochnum).gps(bdsobs).L1C = str2double(line(20:33)); % 用户接受的卫星载波相位L1C
+            obsdata.system(flag).epoch(epochnum).gps(bdsobs).C1C = C1C;  % 用户接收的卫星伪距量C1L
+            obsdata.system(flag).epoch(epochnum).gps(bdsobs).L1C = L1C; % 用户接受的卫星载波相位L1C
+            obsdata.system(flag).epoch(epochnum).gps(bdsobs).C2C = C2C;  % 用户接收的卫星伪距量C2L
+            obsdata.system(flag).epoch(epochnum).gps(bdsobs).L2C = L2C; % 用户接受的卫星载波相位L2C
         elseif line(1)=='E'
             
         elseif line(1)=='L'

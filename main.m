@@ -2,8 +2,8 @@ format long
 
 
 %% 进行初始化，选择数据，选择导航系统
-data = 1;    %选择数据
-Global(2);   %全局变量判断导航系统GPS(1),BDS(2)
+data = 9;    %选择数据
+Global(2,2);   %全局变量判断导航系统GPS(1),BDS(2)
 
 
 % [navdata,navfilepath]=readnavfile;                              %得到卫星的星历文件nav
@@ -13,27 +13,45 @@ Global(2);   %全局变量判断导航系统GPS(1),BDS(2)
 
 switch (data)
     case 1
-      x0=[-2364337.3977;4870285.6075;-3360809.7103];
-      x1 = x0;
-      load('14p16804_21cut0cut2.mat');
+        x0=[-2364337.3977;4870285.6075;-3360809.7103];
+        x1 = x0;
+        load('14p16804_21cut0cut2.mat');
     case 2
-      x0 = [-2364337.4414;4870285.6211;-3360809.6724];
-      x1 = x0;
-      load('16p16804_24cut0cut2.mat');
+        x0 = [-2364337.4414;4870285.6211;-3360809.6724];
+        x1 = x0;
+        load('16p16804_24cut0cut2.mat');
     case 3
-      x0= [-2364335.4220;4870281.4604;-3360816.7056];
-      x1= [-2364337.4414;4870285.6211;-3360809.6724];
-      load('16p16804_24cutacut0.mat');
+        x0= [-2364335.4220;4870281.4604;-3360816.7056];
+        x1= [-2364337.4414;4870285.6211;-3360809.6724];
+        load('16p16804_24cutacut0.mat');
     case 4
-      x0 = [-2364337.4414;4870285.6211;-3360809.6724];
-      x1 = x0;  
-      load('14p04504_24cut0cut2.mat');  
+        x0 = [-2364337.4414;4870285.6211;-3360809.6724];
+        x1 = x0;
+        load('14p04504_24cut0cut2.mat');
     case 5
-      x0 = [-2364337.4414;4870285.6211;-3360809.6724];
-      x1 = [-2364335.4220;4870281.4604;-3360816.7056];  
-      load('14p04504_24cut0cuta.mat');     
+        x0 = [-2364337.4414;4870285.6211;-3360809.6724];
+        x1 = [-2364335.4220;4870281.4604;-3360816.7056];
+        load('14p04504_24cut0cuta.mat');
+    case 6
+        x0 = [-2364337.4414;4870285.6211;-3360809.6724];
+        x1= x0;
+        load('16p32404_25cut1cut3.mat');
+    case 7
+        x0=[-2364337.3977;4870285.6075;-3360809.7103];
+        x1 = x0;
+        load('shuangpin14p16804_21cut0cut2.mat');
+    case 8
+        x0 = [-2364337.4414;4870285.6211;-3360809.6724];
+        x1 = x0;
+        load('shuangpin15p03904_27cut0cut2.mat');
+    case 9
+        x1=[-2364335.4220;4870281.4604;-3360816.7056];
+        x0 = [-2364337.4414;4870285.6211;-3360809.6724];
+        load('shuangpin16p16804_27cut0cuta.mat');
         
-end     
+        
+        
+end
 
 global f a
 e=sqrt(f*(2-f));
@@ -59,12 +77,12 @@ for m=1:group
     
     [singaldiff,satnum,maxnum]=SD(basesat,basenum,movesat,obsnum,x0);
     [N,d,Qxn,Qn]=DD(singaldiff,satnum,maxnum);
-%     fprintf(' %d\n',m);
-%     fprintf(' %.18f\n',d(1));
-%     fprintf(' %.18f\n',d(2));
-%     fprintf(' %.18f\n',d(3));
-%     disp('\n')
-   
+    %     fprintf(' %d\n',m);
+    %     fprintf(' %.18f\n',d(1));
+    %     fprintf(' %.18f\n',d(2));
+    %     fprintf(' %.18f\n',d(3));
+    %     disp('\n')
+    
     %%  模糊度固定
     clear afixed sqnorm Ps Qzhat Z nfixed mu;
     [afixed,sqnorm,Ps,Qzhat,Z,nfixed,mu]= LAMBDA (N,Qn,6,'MU',1/3);

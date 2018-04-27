@@ -1,6 +1,6 @@
 function[navdata,navfilepath]=readnavfile
 % 读取导航[navdata]=readnavfile文件
-navfilepath = '.\cuta3240.16p';
+navfilepath = '.\cuta1680.16p';
 fid      = fopen(navfilepath);
 gpsnav = 0;    % GPS导航文件中的卫星总个数
 bdsnav = 0;   % BDS导航文件中的卫星总个数
@@ -13,6 +13,7 @@ end
 % 逐行读取正文内容
 while ~feof(fid) %判断是否读到文件尾时
     line = fgetl(fid);
+    [line]=DtoE(line);
     if line(1) == 'G' %判断是否是GPS卫星的初始行
         flag = 1;
         gpsnav = gpsnav+1;
@@ -28,6 +29,7 @@ while ~feof(fid) %判断是否读到文件尾时
         navdata.system(flag).gps(gpsnav).af2 = dataline(10); %漂移速度svDrfRate=af2
         % 读取卫星数据第二行
         line = fgetl(fid);
+        [line]=DtoE(line);
         dataline = sscanf(line,'%e'); %将该行按照字符串读取
         navdata.system(flag).gps(gpsnav).idoe = dataline(1); %数据、星历发布时间
         navdata.system(flag).gps(gpsnav).Crs = dataline(2); %Crs
@@ -35,6 +37,7 @@ while ~feof(fid) %判断是否读到文件尾时
         navdata.system(flag).gps(gpsnav).Mo = dataline(4);%Mo
         % 读取卫星数据第三行
         line = fgetl(fid);
+        [line]=DtoE(line);
         dataline = sscanf(line,'%e'); %将该行按照字符串读取
         navdata.system(flag).gps(gpsnav).Cuc = dataline(1); %Cuc
         navdata.system(flag).gps(gpsnav).es = dataline(2); %es
@@ -42,6 +45,7 @@ while ~feof(fid) %判断是否读到文件尾时
         navdata.system(flag).gps(gpsnav).sqrtas = dataline(4); %sqrtas
         % 读取卫星数据第四行
         line = fgetl(fid);
+        [line]=DtoE(line);
         dataline = sscanf(line,'%e'); %将该行按照字符串读取
         navdata.system(flag).gps(gpsnav).toe = dataline(1); %星历参考时间toe
         navdata.system(flag).gps(gpsnav).Cic = dataline(2); %Cic
@@ -49,6 +53,7 @@ while ~feof(fid) %判断是否读到文件尾时
         navdata.system(flag).gps(gpsnav).Cis = dataline(4); %Cis
         % 读取卫星数据第五行
         line = fgetl(fid);
+        [line]=DtoE(line);
         dataline = sscanf(line,'%e'); %将该行按照字符串读取
         navdata.system(flag).gps(gpsnav).io = dataline(1); %io
         navdata.system(flag).gps(gpsnav).Crc = dataline(2); %Crc
@@ -56,6 +61,7 @@ while ~feof(fid) %判断是否读到文件尾时
         navdata.system(flag).gps(gpsnav).dtOMGA = dataline(4); %dtOMGA
         % 读取卫星数据第六行
         line = fgetl(fid);
+        [line]=DtoE(line);
         dataline = sscanf(line,'%e'); %将该行按照字符串读取
         navdata.system(flag).gps(gpsnav).dti = dataline(1); %dti
         navdata.system(flag).gps(gpsnav).L2 = dataline(2); %L2上的码
@@ -63,6 +69,7 @@ while ~feof(fid) %判断是否读到文件尾时
         navdata.system(flag).gps(gpsnav).L2P = dataline(4); %L2P数据标志
         % 读取卫星数据第七行
         line = fgetl(fid);
+        [line]=DtoE(line);
         dataline = sscanf(line,'%e');
         navdata.system(flag).gps(gpsnav).SVaccuracy = dataline(1);%卫星精度
         navdata.system(flag).gps(gpsnav).SVhealth= dataline(2);%卫星健康状态
@@ -70,6 +77,7 @@ while ~feof(fid) %判断是否读到文件尾时
         navdata.system(flag).gps(gpsnav).IODC= dataline(4);%IODC钟的数据龄期
         % 读取卫星数据第八行
         line = fgetl(fid);
+        [line]=DtoE(line);
         dataline = sscanf(line,'%e');
         navdata.system(flag).gps(gpsnav).Ttime = dataline(1);%电文发送时间
         if(navdata.system(flag).gps(gpsnav).SVhealth == 1),gpsnav=gpsnav-1;end
@@ -89,6 +97,7 @@ while ~feof(fid) %判断是否读到文件尾时
         navdata.system(flag).gps(bdsnav).af2 = dataline(10); %漂移速度svDrfRate=af2
         % 读取卫星数据第二行
         line = fgetl(fid);
+        [line]=DtoE(line);
         dataline = sscanf(line,'%e'); %将该行按照字符串读取
         navdata.system(flag).gps(bdsnav).idoe = dataline(1); %数据、星历发布时间
         navdata.system(flag).gps(bdsnav).Crs = dataline(2); %Crs
@@ -96,6 +105,7 @@ while ~feof(fid) %判断是否读到文件尾时
         navdata.system(flag).gps(bdsnav).Mo = dataline(4);%Mo
         % 读取卫星数据第三行
         line = fgetl(fid);
+        [line]=DtoE(line);
         dataline = sscanf(line,'%e'); %将该行按照字符串读取
         navdata.system(flag).gps(bdsnav).Cuc = dataline(1); %Cuc
         navdata.system(flag).gps(bdsnav).es = dataline(2); %es
@@ -103,6 +113,7 @@ while ~feof(fid) %判断是否读到文件尾时
         navdata.system(flag).gps(bdsnav).sqrtas = dataline(4); %sqrtas
         % 读取卫星数据第四行
         line = fgetl(fid);
+        [line]=DtoE(line);
         dataline = sscanf(line,'%e'); %将该行按照字符串读取
         navdata.system(flag).gps(bdsnav).toe = dataline(1); %星历参考时间toe
         navdata.system(flag).gps(bdsnav).Cic = dataline(2); %Cic
@@ -110,6 +121,7 @@ while ~feof(fid) %判断是否读到文件尾时
         navdata.system(flag).gps(bdsnav).Cis = dataline(4); %Cis
         % 读取卫星数据第五行
         line = fgetl(fid);
+        [line]=DtoE(line);
         dataline = sscanf(line,'%e'); %将该行按照字符串读取
         navdata.system(flag).gps(bdsnav).io = dataline(1); %io
         navdata.system(flag).gps(bdsnav).Crc = dataline(2); %Crc
@@ -117,6 +129,7 @@ while ~feof(fid) %判断是否读到文件尾时
         navdata.system(flag).gps(bdsnav).dtOMGA = dataline(4); %dtOMGA
         % 读取卫星数据第六行
         line = fgetl(fid);
+        [line]=DtoE(line);
         dataline = sscanf(line,'%e'); %将该行按照字符串读取
         navdata.system(flag).gps(bdsnav).dti = dataline(1); %dti
         navdata.system(flag).gps(bdsnav).L2 = dataline(2); %L2上的码
@@ -124,6 +137,7 @@ while ~feof(fid) %判断是否读到文件尾时
         navdata.system(flag).gps(bdsnav).L2P = dataline(4); %L2P数据标志
         % 读取卫星数据第七行
         line = fgetl(fid);
+        [line]=DtoE(line);
         dataline = sscanf(line,'%e');
         navdata.system(flag).gps(bdsnav).SVaccuracy = dataline(1);%卫星精度
         navdata.system(flag).gps(bdsnav).SVhealth= dataline(2);%卫星健康状态
@@ -131,6 +145,7 @@ while ~feof(fid) %判断是否读到文件尾时
         navdata.system(flag).gps(bdsnav).IODC= dataline(4);%IODC钟的数据龄期
         % 读取卫星数据第八行
         line = fgetl(fid);
+        [line]=DtoE(line);
         dataline = sscanf(line,'%e');
         navdata.system(flag).gps(bdsnav).Ttime = dataline(1);%电文发送时间
         if(navdata.system(flag).gps(bdsnav).SVhealth == 1),bdsnav=bdsnav-1;end
