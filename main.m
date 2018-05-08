@@ -2,8 +2,8 @@ format long
 
 
 %% 进行初始化，选择数据，选择导航系统
-data = 9;    %选择数据
-Global(2,2);   %全局变量判断导航系统GPS(1),BDS(2)
+data = 1;    %选择数据
+Global(2,1);   %全局变量判断导航系统GPS(1),BDS(2)
 
 
 % [navdata,navfilepath]=readnavfile;                              %得到卫星的星历文件nav
