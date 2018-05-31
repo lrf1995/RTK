@@ -1,12 +1,7 @@
 % function[S,x,y,z]= rtkmain(data)
 clear,clc
 format long;
-
 %% 初始化
-
-data = 10;
-Global(2);
-mode = 1 ;
 
 %{
 --------------初始化-----------------
@@ -17,7 +12,9 @@ mode = 1  -----  意思为单频           |
 mode = 2  -----  意思是双频           |
 --------------初始化------------------
 %}
-
+data = 10;
+Global(2);
+mode = 1 ;
 
 %% 读取文件
 % [navdata,navfilepath]=readnavfile;                              %得到卫星的星历文件nav
@@ -25,7 +22,6 @@ mode = 2  -----  意思是双频           |
 % [obsdata,movefilepath]=readobsfile;                             %得到用户接收机星历文件obs
 
 %% 数据及基准坐标
-
 switch (data)
     case 1
         x0=[-2364337.3977;4870285.6075;-3360809.7103];
@@ -76,7 +72,6 @@ switch (data)
 end
 
 %% 求取转换矩阵S
-
 global f a
 e=sqrt(f*(2-f));
 lambda=atan2(x0(2),x0(1));
@@ -94,7 +89,6 @@ S=[-sin(lambda) cos(lambda) 0;...
 
 
 %% RTK
-
 wrong=0;
 correct=0;
 h=waitbar(0,'请等待...');
@@ -130,24 +124,22 @@ for m=1:group
             z(m) = pos(3);
         end
         
-        %--- 求取误差--%
+        %--- 求取CEP--%
         dx(m) = x(m)-x1(1);
         dy(m) = y(m)-x1(2);
         dz(m) = z(m)-x1(3);
-        
-        %-----求取CEP----%
+        %--- 求取CEP--%
         env=S*[dx(m);dy(m);dz(m)];
         CEPL(m) = sqrt(env(1)^2+env(2)^2) ;
         CEPH(m) = env(3);
         
-        %-----卫星数目----%
         st(m) = satnum;
         string = ['正在运行中',num2str(floor(m/group*100)),'%'];
         waitbar(m/group,h,string);
     end
-    close(h);
+%     close(h);
 end
-
+end
 
 
 

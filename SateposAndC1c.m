@@ -8,8 +8,8 @@ gpsnav = length(navdata.system(flag).gps) ;%星历的个数
 for a2=1:initdata.system(flag).epoch(a1).satnum
     P1 = initdata.system(flag).epoch(a1).gps(a2).C1C;
     F1 = initdata.system(flag).epoch(a1).gps(a2).L1C;
-    P2 = initdata.system(flag).epoch(a1).gps(a2).C2C;
-    F2 = initdata.system(flag).epoch(a1).gps(a2).L2C;
+%     P2 = initdata.system(flag).epoch(a1).gps(a2).C2C;
+%     F2 = initdata.system(flag).epoch(a1).gps(a2).L2C;
     
     
     if (isnan(P1)||isnan(F1)||(F1==0)||(P1==0)),continue;end      %判断数据的伪距和载波是否有数
