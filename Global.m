@@ -1,7 +1,16 @@
-function Global(systype,sysmode)
-global flag mode f a cs L1f L2f L3f u OMEGAdote ;
+function Global(systype)
+% ---定义北斗和GPS双系统不同情况下的全局参数 ---%
+
+%{  
+------------- 注释 ---------------
+GPS对应的三个频率段分别为1、2、5   |
+BDS对应的三个频率段分别为1、7、6   |
+------------- 注释 ---------------
+%}
+
+
+global flag f a cs L1f L2f L3f u OMEGAdote ;
 flag = systype;              %判断系统为GPS(1)还是北斗(2)
-mode = sysmode;
 cs = 2.99792458e8;           %光速
 
 if(flag == 1)

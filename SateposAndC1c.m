@@ -1,6 +1,6 @@
 function[satdata,satnum]=SateposAndC1c(navdata,initdata,x0,S,m)
 % 计算卫星的坐标及接收机伪距
-global flag L1f L3f u OMEGAdote cs mode; %地球自转角速度
+global flag L1f L2f u OMEGAdote cs mode; %地球自转角速度
 a1=m;
 satnum=0;
 match = 0;%判断星历是否匹配
@@ -125,7 +125,7 @@ for a2=1:initdata.system(flag).epoch(a1).satnum
     E=S*D;
     theta=asin(E(3)/sqrt(E(1)^2+E(2)^2+E(3)^2));
     
-    if theta>(5*pi/180)
+    if theta>(pi/18)
         satnum = satnum+1;
         % 计算即在概略点处据卫星的距离与基站与卫星距离差、Ru、卫星角度theta
         
@@ -144,7 +144,7 @@ for a2=1:initdata.system(flag).epoch(a1).satnum
             satdata(satnum).FC1 = F1*lambda1-sbr;
         elseif (mode == 2)
             lambda1   = cs/L1f;
-            lambda2   = cs/L3f;
+            lambda2   = cs/L2f;
             satdata(satnum).PC1 = P1-sbr;
             satdata(satnum).FC1 = F1*lambda1-sbr;
             satdata(satnum).PC2 = P2-sbr;
@@ -155,17 +155,17 @@ for a2=1:initdata.system(flag).epoch(a1).satnum
         
         
         %%        使用Casading rounding AR 算法得到的原始观测量
-% %                 if (flag == 2)
-% %                     lambda1 = cs/L1f;
-% %                     satdata(satnum).P1 = initdata.system(flag).epoch(a1).gps(a2).C1C;
-% %                     satdata(satnum).F1=  initdata.system(flag).epoch(a1).gps(a2).L1C*lambda1;
-% %                     lambda2 = cs/L2f;
-% %                     satdata(satnum).P2 = initdata.system(flag).epoch(a1).gps(a2).C2C;
-% %                     satdata(satnum).F2=  initdata.system(flag).epoch(a1).gps(a2).L2C*lambda2;
-% %                     lambda3 = cs/L3f;
-% %                     satdata(satnum).P3 = initdata.system(flag).epoch(a1).gps(a2).C3C;
-% %                     satdata(satnum).F3=  initdata.system(flag).epoch(a1).gps(a2).L3C*lambda3;
-% %                 end
+        % %                 if (flag == 2)
+        % %                     lambda1 = cs/L1f;
+        % %                     satdata(satnum).P1 = initdata.system(flag).epoch(a1).gps(a2).C1C;
+        % %                     satdata(satnum).F1=  initdata.system(flag).epoch(a1).gps(a2).L1C*lambda1;
+        % %                     lambda2 = cs/L2f;
+        % %                     satdata(satnum).P2 = initdata.system(flag).epoch(a1).gps(a2).C2C;
+        % %                     satdata(satnum).F2=  initdata.system(flag).epoch(a1).gps(a2).L2C*lambda2;
+        % %                     lambda3 = cs/L3f;
+        % %                     satdata(satnum).P3 = initdata.system(flag).epoch(a1).gps(a2).C3C;
+        % %                     satdata(satnum).F3=  initdata.system(flag).epoch(a1).gps(a2).L3C*lambda3;
+        % %                 end
     end
     
     

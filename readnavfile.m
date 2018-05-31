@@ -1,6 +1,6 @@
 function[navdata,navfilepath]=readnavfile
 % 读取导航[navdata]=readnavfile文件
-navfilepath = '.\cuta1680.16p';
+navfilepath = '.\cut00280.16n';
 fid      = fopen(navfilepath);
 gpsnav = 0;    % GPS导航文件中的卫星总个数
 bdsnav = 0;   % BDS导航文件中的卫星总个数

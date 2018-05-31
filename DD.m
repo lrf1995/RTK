@@ -1,5 +1,5 @@
 function[N,d,Qxn,Qn]=DD(singaldiff,satnum,maxnum)
-global  mode L1f L3f cs;
+global  mode L1f L2f cs;
 if(mode ==1)
     dnum=0;
     lambda1 = cs/L1f;
@@ -41,7 +41,7 @@ if(mode ==1)
 elseif (mode == 2)
     dnum=0;
     lambda1 = cs/L1f;
-    lambda2 = cs/L3f;
+    lambda2 = cs/L2f;
     G = zeros(satnum-1,3) ;
     P1 = zeros(satnum-1,1) ;
     F1 = zeros(satnum-1,1) ;
@@ -82,5 +82,4 @@ elseif (mode == 2)
     Qx = inv(H'*C*H);
     Qn = Qx(4:satnum-1+3,4:satnum-1+3);   %模糊度N的协方差矩阵
     Qxn = Qx(1:3,4:satnum-1+3);           %基线向量与模糊度N之间的相关系数阵
-    
 end

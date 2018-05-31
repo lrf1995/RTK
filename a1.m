@@ -1,0 +1,1 @@
+[S,x,y,z]= rtkmain(10)
