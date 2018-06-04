@@ -1,5 +1,5 @@
 function[singaldiff,satnum,maxsat]=SD(basesat,basenum,movesat,obsnum,x0)
-global mode
+% 单差计算
 satnum=0;
 for  i=1:obsnum
     for  j=1:basenum
@@ -11,15 +11,10 @@ for  i=1:obsnum
             singaldiff(satnum).Iz = (movesat(i).zs - x0(3))/r;
             singaldiff(satnum).theta= movesat(i).theta;
             %%   双频LAMBDA算法的单差计算量（并非单差观测量）
-            if (mode == 1)
-                singaldiff(satnum).FC1 = movesat(i).FC1-basesat(j).FC1;
-                singaldiff(satnum).PC1 = movesat(i).PC1-basesat(j).PC1;
-            elseif(mode == 2)
-                singaldiff(satnum).FC1 = movesat(i).FC1-basesat(j).FC1;
-                singaldiff(satnum).PC1 = movesat(i).PC1-basesat(j).PC1;
-                singaldiff(satnum).FC2 = movesat(i).FC2-basesat(j).FC2;
-                singaldiff(satnum).PC2 = movesat(i).PC2-basesat(j).PC2;
-            end
+            singaldiff(satnum).FC1 = movesat(i).FC1-basesat(j).FC1;
+            singaldiff(satnum).PC1 = movesat(i).PC1-basesat(j).PC1;
+            singaldiff(satnum).FC2 = movesat(i).FC2-basesat(j).FC2;
+            singaldiff(satnum).PC2 = movesat(i).PC2-basesat(j).PC2;
             singaldiff(satnum).fw = 0.005^2*(1+(1/movesat(i).theta)^2);
             singaldiff(satnum).pw = 0.5^2*(1+(1/movesat(i).theta)^2);
             singaldiff(satnum).prn = movesat(i).prn;
@@ -30,9 +25,7 @@ for  i=1:obsnum
             % %             singaldiff(satnum).FC2 = movesat(i).F2-basesat(j).F2;
             % %             singaldiff(satnum).PC2 = movesat(i).P2-basesat(j).P2;
             % %             singaldiff(satnum).FC3 = movesat(i).F3-basesat(j).F3;
-            % %             singaldiff(satnum).PC3 = movesat(i).P3-basesat(j).P3;
-            %%
-            
+            % %             singaldiff(satnum).PC3 = movesat(i).P3-basesat(j).P3;      
             break;
         end
     end

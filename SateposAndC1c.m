@@ -1,6 +1,6 @@
 function[satdata,satnum]=SateposAndC1c(navdata,initdata,x0,S,m)
 % 计算卫星的坐标及接收机伪距
-global flag L1f L2f u OMEGAdote cs mode; %地球自转角速度
+global flag L1f L2f u OMEGAdote cs ; %地球自转角速度
 a1=m;
 satnum=0;
 match = 0;%判断星历是否匹配
@@ -8,8 +8,8 @@ gpsnav = length(navdata.system(flag).gps) ;%星历的个数
 for a2=1:initdata.system(flag).epoch(a1).satnum
     P1 = initdata.system(flag).epoch(a1).gps(a2).C1C;
     F1 = initdata.system(flag).epoch(a1).gps(a2).L1C;
-%     P2 = initdata.system(flag).epoch(a1).gps(a2).C2C;
-%     F2 = initdata.system(flag).epoch(a1).gps(a2).L2C;
+    P2 = initdata.system(flag).epoch(a1).gps(a2).C2C;
+    F2 = initdata.system(flag).epoch(a1).gps(a2).L2C;
     
     
     if (isnan(P1)||isnan(F1)||(F1==0)||(P1==0)),continue;end      %判断数据的伪距和载波是否有数
@@ -133,27 +133,16 @@ for a2=1:initdata.system(flag).epoch(a1).satnum
         satdata(satnum).ys=Y;
         satdata(satnum).zs=Z;
         satdata(satnum).prn = initdata.system(flag).epoch(a1).gps(a2).prn;
-        satdata(satnum).theta =theta;
+        satdata(satnum).theta = theta;
         sbr=sqrt((X-x0(1))^2+(Y-x0(2))^2+(Z-x0(3))^2);
         
         %%   双频LAMBDA算法的原始计算量（并非原始观测量）
-        
-        if (mode == 1)
-            lambda1  = cs/L1f;
-            satdata(satnum).PC1 = P1-sbr;
-            satdata(satnum).FC1 = F1*lambda1-sbr;
-        elseif (mode == 2)
             lambda1   = cs/L1f;
             lambda2   = cs/L2f;
             satdata(satnum).PC1 = P1-sbr;
             satdata(satnum).FC1 = F1*lambda1-sbr;
             satdata(satnum).PC2 = P2-sbr;
             satdata(satnum).FC2 = F2*lambda2-sbr;
-        end
-        
-        
-        
-        
         %%        使用Casading rounding AR 算法得到的原始观测量
         % %                 if (flag == 2)
         % %                     lambda1 = cs/L1f;

@@ -29,5 +29,7 @@ plot(da1,'.r');
 subplot 212     % 将画图区域分成3行1列，dy关于t的函数图像画在第三行第二列
 plot(da2,'.r');
 
+fprintf('CEPH95为%.8f\n',CEPL95);
+fprintf('CEPH95为%.8f\n',CEPH95);
 
 end

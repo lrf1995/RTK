@@ -1,10 +1,10 @@
-% function[S,x,y,z]= rtkmain(data)
-clear,clc
+function[S,x,y,z]= rtkmain(aaa)
+% clear,clc
 format long;
 
 %% ≥ı ºªØ
 
-data = 10;
+data = aaa;
 Global(2);
 mode = 1 ;
 
@@ -148,8 +148,8 @@ for m=1:group
    
 end
  close(h);
-[CEPL95,CEPH95] =SATS(m,CEPL,CEPH,st);
 
+end
 
 
 
