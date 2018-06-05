@@ -76,7 +76,6 @@ switch (data)
 end
 
 %% 求取转换矩阵S
-
 global f a
 e=sqrt(f*(2-f));
 lambda=atan2(x0(2),x0(1));
@@ -91,10 +90,10 @@ S=[-sin(lambda) cos(lambda) 0;...
     -sin(phi)*cos(lambda) -sin(phi)*sin(lambda) cos(phi);...
     cos(phi)*cos(lambda) cos(phi)*sin(lambda) sin(phi)];
 
-
+% 利用单点定位求取概略位置
+[SPx,SPy,SPz]=SP(x0,navfilepath,movefilepath);
 
 %% RTK
-
 wrong=0;
 correct=0;
 h=waitbar(0,'请等待...');
@@ -117,9 +116,9 @@ for m=1:group
         pos=x0+df;
         if(proba(m)==0)
             wrong=wrong+1;
-            x(m) = x1(1);
-            y(m) = x1(2);
-            z(m) = x1(3);
+            x(m) = SPx(m);
+            y(m) = SPy(m);
+            z(m) = SPz(m);
         else
             correct=correct+1;
             P(correct)=Ps;
@@ -128,13 +127,15 @@ for m=1:group
             x(m) = pos(1);
             y(m) = pos(2);
             z(m) = pos(3);
+            xc(correct) = pos(1);
+            yc(correct) = pos(2);
+            zc(correct) = pos(3);
         end
         
         %--- 求取误差--%
         dx(m) = x(m)-x1(1);
         dy(m) = y(m)-x1(2);
         dz(m) = z(m)-x1(3);
-        
         %-----求取CEP----%
         env=S*[dx(m);dy(m);dz(m)];
         CEPL(m) = sqrt(env(1)^2+env(2)^2) ;
@@ -148,7 +149,10 @@ for m=1:group
    
 end
  close(h);
-[CEPL95,CEPH95] =SATS(m,CEPL,CEPH,st);
+        rtker.dxc = xc-x1(1);
+        rtker.dyc = yc-x1(2);
+        rtker.dzc = zc-x1(3);
+[CEPL95,CEPH95] =SATS(dx,dy,dz,rtker,m,CEPL,CEPH,st);
 
 
 
