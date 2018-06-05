@@ -1,6 +1,6 @@
 function[obsdata,movefilepath]=readobsfile
 % 读取观测文件（用户接收机）
-movefilepath = '.\cuta1680.16o';
+movefilepath = '.\cutb1680.16o';
 fid      = fopen(movefilepath);
 while ~feof(fid)   %feof若未结束返回0值
     line = fgetl(fid);
@@ -53,8 +53,8 @@ while ~feof(fid)
             flag = 1 ;
             C1C = str2double(line(5:17));
             L1C = str2double(line(21:34));
-            C2C = str2double(line(70:82));
-            L2C = str2double(line(85:98));
+            C2C = str2double(line(54:66));
+            L2C = str2double(line(69:82));
             if(isnan(C1C)||isnan(L1C)||isnan(C2C)||isnan(L2C))%||isnan(C3I)||isnan(L3I))
                 continue;
             end
@@ -73,8 +73,8 @@ while ~feof(fid)
             flag = 2 ;
             C1C = str2double(line(5:17));
             L1C = str2double(line(21:34));
-            C2C = str2double(line(70:82));
-            L2C = str2double(line(85:98));
+            C2C = str2double(line(54:66));
+            L2C = str2double(line(69:82));
              if(isnan(C1C)||isnan(L1C)||isnan(C2C)||isnan(L2C))%||isnan(C3I)||isnan(L3I))
                 continue;
             end
