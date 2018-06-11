@@ -1,6 +1,6 @@
 function[obsdata,movefilepath]=readobsfile
 % 读取观测文件（用户接收机）
-movefilepath = '.\cutb1680.16o';
+movefilepath = '.\cuta1680.16o';
 fid      = fopen(movefilepath);
 while ~feof(fid)   %feof若未结束返回0值
     line = fgetl(fid);
@@ -35,27 +35,27 @@ while ~feof(fid)
             line(linechang+1:193)=0;
         end
         %%      判断不同卫星系统不同频率下是否存在相应的载波和伪距
-% %         cada = line(1);
-% %         C1C = str2double(line(5:17));
-% %         L1C = str2double(line(21:34));
-% %         C2C = str2double(line(54:66));
-% %         L2C = str2double(line(69:82));
-% %         %         C3I = str2double(line(102:114));
-% %         %         L3I = str2double(line(117:130));
-% %         if ((cada=='C')||(cada=='G'))
-% %             if(isnan(C1C)||isnan(L1C)||isnan(C2C)||isnan(L2C))%||isnan(C3I)||isnan(L3I))
-% %                 continue;
-% %             end
-% %         end
+        % %         cada = line(1);
+        % %         C1C = str2double(line(5:17));
+        % %         L1C = str2double(line(21:34));
+        % %         C2C = str2double(line(54:66));
+        % %         L2C = str2double(line(69:82));
+        % %         %         C3I = str2double(line(102:114));
+        % %         %         L3I = str2double(line(117:130));
+        % %         if ((cada=='C')||(cada=='G'))
+        % %             if(isnan(C1C)||isnan(L1C)||isnan(C2C)||isnan(L2C))%||isnan(C3I)||isnan(L3I))
+        % %                 continue;
+        % %             end
+        % %         end
         
-        %% 读取观测数据       
+        %% 读取观测数据
         if line(1)=='G'
             flag = 1 ;
             C1C = str2double(line(5:17));
             L1C = str2double(line(21:34));
-            C2C = str2double(line(54:66));
-            L2C = str2double(line(69:82));
-            if(isnan(C1C)||isnan(L1C)||isnan(C2C)||isnan(L2C))%||isnan(C3I)||isnan(L3I))
+            C2C = str2double(line(134:146));
+            L2C = str2double(line(149:162));
+            if(isnan(C1C)||isequal(C1C,0)||isnan(L1C)||isequal(L1C,0)||isnan(C2C)||isequal(C2C,0)||isnan(L2C)||isequal(L2C,0))
                 continue;
             end
             gpsobs=gpsobs+1;
@@ -73,9 +73,9 @@ while ~feof(fid)
             flag = 2 ;
             C1C = str2double(line(5:17));
             L1C = str2double(line(21:34));
-            C2C = str2double(line(54:66));
-            L2C = str2double(line(69:82));
-             if(isnan(C1C)||isnan(L1C)||isnan(C2C)||isnan(L2C))%||isnan(C3I)||isnan(L3I))
+            C2C = str2double(line(134:146));
+            L2C = str2double(line(149:162));
+            if(isnan(C1C)||isequal(C1C,0)||isnan(L1C)||isequal(L1C,0)||isnan(C2C)||isequal(C2C,0)||isnan(L2C)||isequal(L2C,0))
                 continue;
             end
             bdsobs=bdsobs+1;

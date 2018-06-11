@@ -4,8 +4,8 @@ format long;
 
 %% 初始化
 
-data = 12;
-Global(1);
+data = 13;
+Global(2);
 mode = 2;
 
 %{
@@ -78,6 +78,11 @@ switch (data)
         x1 = [-2364333.5346;4870287.3393;-3360809.5251];
         %         x2 = [-2364335.4220;4870281.4604;-3360816.7056];
         load('shuangpin16p16806_5cut0cutb.mat');
+    case 13
+        x0 = [-2364337.4414;4870285.6211;-3360809.6724];
+        x1 = [-2364335.4220;4870281.4604;-3360816.7056];
+        %         x2 = [-2364333.5346;4870287.3393;-3360809.5251];
+        load('shuangpin16p16806_11cut0cuta.mat');
 end
 
 %% 求取转换矩阵S
@@ -95,8 +100,11 @@ S=[-sin(lambda) cos(lambda) 0;...
     -sin(phi)*cos(lambda) -sin(phi)*sin(lambda) cos(phi);...
     cos(phi)*cos(lambda) cos(phi)*sin(lambda) sin(phi)];
 
-%% 利用单点定位求取概略位置
-[SPx,SPy,SPz]=SP(x0,navfilepath,movefilepath);
+%% 单频情况下利用单点定位求取未固定位置
+if (mode == 1)
+    [SPx,SPy,SPz]=SP(x0,navfilepath,movefilepath);
+end
+
 
 %% RTK
 wrong=0;
@@ -124,9 +132,16 @@ for m=1:group
     pos=x0+df;
     if(proba(m)==0)
         wrong=wrong+1;
-        x(m) = SPx(m);
-        y(m) = SPy(m);
-        z(m) = SPz(m);
+        if(mode == 1)
+            x(m) = SPx(m);
+            y(m) = SPy(m);
+            z(m) = SPz(m);
+        else
+            posDD = x0 + d ;
+            x(m) = posDD(1);
+            y(m) = posDD(2);
+            z(m) = posDD(3);
+        end
     else
         correct=correct+1;
         P(correct)=Ps;
