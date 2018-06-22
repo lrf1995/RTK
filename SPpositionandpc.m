@@ -2,32 +2,32 @@ function[eq,validnum]=SPpositionandpc(obsdata,navdata,x0,gpsnav,m)
 %计算卫星坐标以及校正后的伪距
 
 e1=0;
-for a2=1:length(obsdata.obs(m).gps)
+for a2=1:length(obsdata.system(1).epoch(m).gps)
         for a3=1:gpsnav
-         if(obsdata.obs(m).gps(a2).prn==navdata.gps(a3).prn)
-            ak=obsdata.obs(m).gps(a2).gpst-navdata.gps(a3).gpst-obsdata.obs(m).gps(a2).CLC/(2.99792458e8);% 接收时间减去伪距除以光速（传播时间）得信号发射时间 发射时间减去基准时间 
+         if(obsdata.system(1).epoch(m).gps(a2).prn==navdata.system(1).gps(a3).prn)
+            ak=obsdata.system(1).epoch(m).gpst(2)-navdata.system(1).gps(a3).gpst(2)-obsdata.system(1).epoch(m).gps(a2).C1C/(2.99792458e8);% 接收时间减去伪距除以光速（传播时间）得信号发射时间 发射时间减去基准时间 
             if(abs(ak)<7200),       
-                toe=navdata.gps(a3).toe;
-                as=(navdata.gps(a3).sqrtas)^2;
-                es=navdata.gps(a3).es;
-                io=navdata.gps(a3).io;
-                OMGAo=navdata.gps(a3).OMGAo;
-                w=navdata.gps(a3).w;
-                Mo=navdata.gps(a3).Mo;
-                deltn=navdata.gps(a3).deltn;
-                dti=navdata.gps(a3).dti;
-                dtOMGA=navdata.gps(a3).dtOMGA;
-                Cuc=navdata.gps(a3).Cuc;
-                Cus=navdata.gps(a3).Cus;
-                Crc=navdata.gps(a3).Crc;
-                Crs=navdata.gps(a3).Crs;
-                Cic=navdata.gps(a3). Cic;
-                Cis=navdata.gps(a3).Cis;
+                toe=navdata.system(1).gps(a3).toe;
+                as=(navdata.system(1).gps(a3).sqrtas)^2;
+                es=navdata.system(1).gps(a3).es;
+                io=navdata.system(1).gps(a3).io;
+                OMGAo=navdata.system(1).gps(a3).OMGAo;
+                w=navdata.system(1).gps(a3).w;
+                Mo=navdata.system(1).gps(a3).Mo;
+                deltn=navdata.system(1).gps(a3).deltn;
+                dti=navdata.system(1).gps(a3).dti;
+                dtOMGA=navdata.system(1).gps(a3).dtOMGA;
+                Cuc=navdata.system(1).gps(a3).Cuc;
+                Cus=navdata.system(1).gps(a3).Cus;
+                Crc=navdata.system(1).gps(a3).Crc;
+                Crs=navdata.system(1).gps(a3).Crs;
+                Cic=navdata.system(1).gps(a3). Cic;
+                Cis=navdata.system(1).gps(a3).Cis;
                 dtOMGAe=7.2921151467*10^-5;
                 GM=3.986005e+14;
                
              %%  1.计算归化时间tk
-              t=obsdata.obs(m).gps(a2).gpst-obsdata.obs(m).gps(a2).CLC/(2.99792458e8);
+              t=obsdata.system(1).epoch(m).gpst(1)*604800+obsdata.system(1).epoch(m).gpst(2)-obsdata.system(1).epoch(m).gps(a2).C1C/(2.99792458e8);
 %                 tk=ak;
                 tk  = t - toe;
                while(tk > 302400||tk < -302400)
@@ -99,16 +99,16 @@ for a2=1:length(obsdata.obs(m).gps)
              if thet>(pi/18)
               e1=e1+1;
             %   12.计算卫星在地球自转tau之后卫星在WGS-84地心地固直角坐标系中的坐标（x,y,z）
-              tau=obsdata.obs(m).gps(a2).CLC/(2.99792458e8);
+              tau=obsdata.system(1).epoch(m).gps(a2).C1C/(2.99792458e8);
               eq.equ(e1).x=X*cos(dtOMGAe*tau)+Y*sin(dtOMGAe*tau);
               eq.equ(e1).y=Y*cos(dtOMGAe*tau)-X*sin(dtOMGAe*tau);
               eq.equ(e1).z=Z;
              
               % 卫星时钟误差
-               deltts=navdata.gps(a3).af0+navdata.gps(a3).af1*ak+navdata.gps(a3).af2*(ak^2);
+               deltts=navdata.system(1).gps(a3).af0+navdata.system(1).gps(a3).af1*ak+navdata.system(1).gps(a3).af2*(ak^2);
                F=-4.442807633*10^-10;
-               delttr=F*es*navdata.gps(a3).sqrtas*sin(Ek);
-               deltt=deltts+delttr-navdata.gps(a3).TGD;
+               delttr=F*es*navdata.system(1).gps(a3).sqrtas*sin(Ek);
+               deltt=deltts+delttr-navdata.system(1).gps(a3).TGD;
 %              % 电离层延时A
              Ia0=0.1118e-7;Ia1=-0.7451e-8;Ia2=-0.5961e-7;Ia3=0.1192e-10;
              b0=0.1167e6;b1=-0.2294e6;b2=-0.1311e6;b3=0.1049e7;
@@ -136,7 +136,7 @@ for a2=1:length(obsdata.obs(m).gps)
              % 对流层延时
               T=2.47/(sin(thet)+0.0121);
             % 计算校正后的伪距
-               p=obsdata.obs(m).gps(a2).CLC;
+               p=obsdata.system(1).epoch(m).gps(a2).C1C;
                eq.equ(e1).pc = p+deltt*(2.99792458e8)-T-I;
                a=0.005;
                b=0.005;

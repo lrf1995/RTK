@@ -60,7 +60,7 @@ while ~feof(fid)
             end
             gpsobs=gpsobs+1;
             obsdata.system(flag).epoch(epochnum).gps(gpsobs).timeutc=timeutc;
-            obsdata.system(flag).epoch(epochnum).gps(gpsobs).gpst =gpst;                    % 用户接收机接收机信号接收时间tu
+            obsdata.system(flag).epoch(epochnum).gps(bdsobs).gpst =obsdata.system(1).epoch(epochnum).gpst;      % 用户接收机接收机信号接收时间tu
             obsdata.system(flag).epoch(epochnum).gps(gpsobs).prn = str2double(line(2:3));   % 用户接收的卫星prn号
             obsdata.system(flag).epoch(epochnum).gps(gpsobs).C1C = C1C;  % 用户接收的卫星伪距量C1L
             obsdata.system(flag).epoch(epochnum).gps(gpsobs).L1C = L1C; % 用户接受的卫星载波相位L1C
@@ -81,7 +81,7 @@ while ~feof(fid)
             bdsobs=bdsobs+1;
             obsdata.system(flag).epoch(epochnum).gps(bdsobs).timeutc=timeutc;
             gpst(2)=gpst(2)-14; %北斗时
-            obsdata.system(flag).epoch(epochnum).gps(bdsobs).gpst =gpst;                    % 用户接收机接收机信号接收时间tu
+            obsdata.system(flag).epoch(epochnum).gps(bdsobs).gpst =obsdata.system(2).epoch(epochnum).gpst;    % 用户接收机接收机信号接收时间tu
             obsdata.system(flag).epoch(epochnum).gps(bdsobs).prn = str2double(line(2:3));   % 用户接收的卫星prn号
             obsdata.system(flag).epoch(epochnum).gps(bdsobs).C1C = C1C;  % 用户接收的卫星伪距量C1L
             obsdata.system(flag).epoch(epochnum).gps(bdsobs).L1C = L1C; % 用户接受的卫星载波相位L1C
