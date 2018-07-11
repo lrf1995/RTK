@@ -72,4 +72,11 @@ switch data
         x1=[-2364335.4220;4870281.4604;-3360816.7056];
         dataname = 'shuangpin6_2017pcut0cutb0815.mat';
         
+    case 15
+        % 一组自己采集的静态数据，基站为16公寓，动态数据为绕着军工操场
+        x0 = [-2662229.2962;3574381.5547;4547551.0200];
+        x1 = x0;
+        dataname = '.\data\16apartmentdata.mat';
+        
+        
 end
