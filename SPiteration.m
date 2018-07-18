@@ -1,4 +1,4 @@
-function[x1]=SPiteration(eq,validnum)
+function[x1,Dtu]=SPiteration(eq,validnum)
 % 进行牛顿迭代
 
 Dtu=0;%钟差初始值设为0

@@ -32,7 +32,9 @@ if DOUBLESYS ==1
     
     %-----单频情况下利用单点定位求取未固定位置----%
     if (mode == 1)
-        [SPx,SPy,SPz]=SP(x0,obsdata,navdata);
+        Global(sys);
+        [S] = GetS(x0);
+        [SPx,SPy,SPz,Dt2]=SP(x0,obsdata,navdata,S,sys);
     end
     
     %-----RTK----%
